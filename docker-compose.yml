@@ -1,0 +1,16 @@
+version: '2'
+services:
+  php-fpm:
+    build: ./docker/php-fpm/
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+     - ./src/:/var/www/html/
+  nginx:
+    build: ./docker/nginx/
+    links:
+     - php-fpm
+    volumes_from:
+     - php-fpm
+    ports:
+     - "trustpilot.dev:80:80"
